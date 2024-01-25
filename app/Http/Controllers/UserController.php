@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
+use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,5 +43,15 @@ class UserController extends Controller
         Auth::logout();
         return redirect()->route('user.login-page');
 
+    }
+    public function register(UserRequest $userRequest): RedirectResponse
+    {
+        User::create([
+            'name' => $userRequest->name,
+            'email' => $userRequest->email,
+            'password' => $userRequest->password,
+        ]);
+
+        return redirect()->route("user.login-page");
     }
 }
